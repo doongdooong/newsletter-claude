@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="origin">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>아침 브리핑 데스크</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+
+/* =========================================================
+   ⬇️⬇️⬇️ 여기 두 줄만 수정하면 돼 (STEP 2, 3에서 복사한 값) ⬇️⬇️⬇️
+   ========================================================= */
+</style>
+<script>
+  const DRIVE_FILE_ID = "1o04rrBn-KDCIO-g5Tn1MEXQi8D81xcBW";
+  const GOOGLE_API_KEY = "AIzaSyAN96tDCYwhYZfAQGV7i13cH40STr5jexM";
+</script>
+<style>
+/* ↑↑↑ 위 두 줄 수정 끝. 아래는 안 건드려도 돼 ↑↑↑ */
+
+  :root{
+    --ink:#16151F;
+    --card:#201F2C;
+    --card-hover:#262536;
+    --paper:#F3EFE6;
+    --muted:#8A889C;
+    --hairline:#33323F;
+    --hr-accent:#4FB3A9;
+    --biz-accent:#D98F4E;
+    --ai-accent:#9B8CF2;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Noto Serif KR', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{ font-family:'JetBrains Mono', ui-monospace, monospace; }
+  .wrap{ max-width:720px; margin:0 auto; padding:24px 18px 80px; }
+
+  header{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    padding-bottom:20px; margin-bottom:24px; border-bottom:1px solid var(--hairline);
+  }
+  .title-block h1{ font-size:22px; margin:0 0 6px; font-weight:900; letter-spacing:-0.01em; }
+  .date-line{ font-size:12px; color:var(--muted); letter-spacing:0.02em; }
+  button{
+    font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.03em;
+    background:var(--card); color:var(--paper);
+    border:1px solid var(--hairline); border-radius:6px;
+    padding:8px 12px; cursor:pointer;
+  }
+  button:hover{ background:var(--card-hover); }
+  button:disabled{ opacity:0.5; cursor:default; }
+
+  .desk{ background:var(--card); border-radius:10px; margin-bottom:18px; border-left:4px solid var(--muted); overflow:hidden; }
+  .desk[data-tone="hr"]{ border-left-color:var(--hr-accent); }
+  .desk[data-tone="biz"]{ border-left-color:var(--biz-accent); }
+  .desk[data-tone="ai"]{ border-left-color:var(--ai-accent); }
+
+  .desk-tag{
+    display:inline-block; font-family:'JetBrains Mono', monospace;
+    font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+    padding:3px 8px; border-radius:4px; margin:16px 0 4px 18px;
+  }
+  .desk[data-tone="hr"] .desk-tag{ background:rgba(79,179,169,0.15); color:var(--hr-accent); }
+  .desk[data-tone="biz"] .desk-tag{ background:rgba(217,143,78,0.15); color:var(--biz-accent); }
+  .desk[data-tone="ai"] .desk-tag{ background:rgba(155,140,242,0.15); color:var(--ai-accent); }
+
+  .item{ padding:14px 18px; border-top:1px solid var(--hairline); }
+  .item:first-of-type{ border-top:none; }
+  .item h3{ font-size:16px; margin:0 0 6px; font-weight:700; line-height:1.4; }
+  .item h3 a{ color:var(--paper); text-decoration:none; }
+  .item h3 a:hover{ text-decoration:underline; }
+  .item p{ font-size:13.5px; line-height:1.65; color:#D8D5CC; margin:0 0 8px; }
+  .item .source{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--muted); }
+  .item .hr-comment{
+    margin-top:8px; padding:8px 10px; background:rgba(255,255,255,0.04);
+    border-radius:6px; font-family:'JetBrains Mono', monospace; font-size:11px;
+    color:var(--paper); border-left:2px solid var(--muted);
+  }
+  .empty-note{ padding:16px 18px; font-size:13px; color:var(--muted); font-style:italic; }
+
+  .state-box{ text-align:center; padding:60px 20px; color:var(--muted); }
+  .spinner{
+    width:20px; height:20px; margin:0 auto 14px;
+    border:2px solid var(--hairline); border-top-color:var(--paper);
+    border-radius:50%; animation:spin 0.8s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .archive{ margin-top:32px; }
+  .archive-head{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.05em;
+    color:var(--muted); text-transform:uppercase; margin-bottom:10px;
+    cursor:pointer; user-select:none;
+  }
+  .archive-list{ display:flex; flex-direction:column; gap:2px; }
+  .archive-list.collapsed{ display:none; }
+  .archive-item{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:9px 12px; border-radius:6px; cursor:pointer;
+    font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--muted);
+  }
+  .archive-item:hover{ background:var(--card); color:var(--paper); }
+  .archive-item.active{ background:var(--card); color:var(--paper); border:1px solid var(--hairline); }
+
+  .error-box{
+    background:var(--card); border:1px solid #6B3A3A; border-radius:8px;
+    padding:16px; font-size:13px; color:#E0A8A8; line-height:1.6;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="title-block">
+      <h1>아침 브리핑 데스크</h1>
+      <div class="date-line mono" id="dateLine">—</div>
+    </div>
+    <button id="refreshBtn">↻ 새로고침</button>
+  </header>
+
+  <div id="content">
+    <div class="state-box"><div class="spinner"></div><div class="mono">불러오는 중...</div></div>
+  </div>
+
+  <div class="archive">
+    <div class="archive-head" id="archiveToggle"><span>지난 브리핑</span><span id="archiveArrow">▾</span></div>
+    <div class="archive-list" id="archiveList"></div>
+  </div>
+</div>
+
+<script>
+const CATEGORY_TONE = {
+  "채용·HR·조직문화": "hr",
+  "국내 대기업 사업동향": "biz",
+  "AI·테크 전반": "ai"
+};
+
+function todayKey(){
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function formatDateLabel(dateStr){
+  const days = ['일','월','화','수','목','금','토'];
+  const d = new Date(dateStr + 'T00:00:00');
+  return `${dateStr.replace(/-/g,'.')} ${days[d.getDay()]}요일`;
+}
+function escapeHtml(str){
+  if(!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function safeUrl(url){
+  try{ const u = new URL(url); if(u.protocol === 'http:' || u.protocol === 'https:') return u.href; }catch(e){}
+  return '#';
+}
+
+async function fetchFromDrive(){
+  if(DRIVE_FILE_ID.includes('여기에') || GOOGLE_API_KEY.includes('여기에')){
+    throw new Error('설정이 안 끝났어요. 코드 맨 위 DRIVE_FILE_ID와 GOOGLE_API_KEY를 채워주세요.');
+  }
+  const url = `https://www.googleapis.com/drive/v3/files/${DRIVE_FILE_ID}?alt=media&key=${GOOGLE_API_KEY}`;
+  const res = await fetch(url);
+  if(!res.ok){
+    throw new Error(`드라이브에서 파일을 가져오지 못했어요 (상태: ${res.status}). 파일 공유 설정이 "링크가 있는 모든 사용자"인지 확인해주세요.`);
+  }
+  return await res.json();
+}
+
+function renderBriefing(briefing){
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+  (briefing.categories || []).forEach(cat => {
+    const tone = CATEGORY_TONE[cat.name] || 'hr';
+    const desk = document.createElement('div');
+    desk.className = 'desk';
+    desk.setAttribute('data-tone', tone);
+
+    const tag = document.createElement('div');
+    tag.className = 'desk-tag';
+    tag.textContent = cat.name;
+    desk.appendChild(tag);
+
+    if(!cat.items || cat.items.length === 0){
+      const empty = document.createElement('div');
+      empty.className = 'empty-note';
+      empty.textContent = '오늘은 특별한 소식 없음';
+      desk.appendChild(empty);
+    } else {
+      cat.items.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'item';
+        el.innerHTML = `
+          <h3><a href="${safeUrl(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.headline)}</a></h3>
+          <p>${escapeHtml(item.summary)}</p>
+          <div class="source">${escapeHtml(item.source || '')}</div>
+          ${item.hrComment ? `<div class="hr-comment">HR 관점 · ${escapeHtml(item.hrComment)}</div>` : ''}
+        `;
+        desk.appendChild(el);
+      });
+    }
+    content.appendChild(desk);
+  });
+}
+
+function renderError(msg){
+  document.getElementById('content').innerHTML = `
+    <div class="error-box">
+      ${escapeHtml(msg)}
+      <div style="margin-top:10px;"><button id="retryBtn">다시 시도</button></div>
+    </div>`;
+  document.getElementById('retryBtn').onclick = () => loadToday(true);
+}
+function renderLoading(){
+  document.getElementById('content').innerHTML = `<div class="state-box"><div class="spinner"></div><div class="mono">불러오는 중...</div></div>`;
+}
+
+async function loadToday(forceFetch){
+  const dateStr = todayKey();
+  document.getElementById('dateLine').textContent = formatDateLabel(dateStr);
+  const refreshBtn = document.getElementById('refreshBtn');
+  refreshBtn.disabled = true;
+  renderLoading();
+
+  try{
+    const briefing = await fetchFromDrive();
+    localStorage.setItem(`brief:${briefing.date || dateStr}`, JSON.stringify(briefing));
+    renderBriefing(briefing);
+    refreshArchiveList();
+    highlightArchive(briefing.date || dateStr);
+  }catch(e){
+    // 드라이브 요청 실패 시, 오늘 것이 로컬에 저장돼 있으면 그거라도 보여줌
+    const cached = localStorage.getItem(`brief:${dateStr}`);
+    if(cached && !forceFetch){
+      renderBriefing(JSON.parse(cached));
+      highlightArchive(dateStr);
+    } else {
+      renderError(e.message || String(e));
+    }
+  }
+  refreshBtn.disabled = false;
+}
+
+function loadArchivedDate(dateStr){
+  const cached = localStorage.getItem(`brief:${dateStr}`);
+  if(cached){
+    document.getElementById('dateLine').textContent = formatDateLabel(dateStr);
+    renderBriefing(JSON.parse(cached));
+    highlightArchive(dateStr);
+  }
+}
+
+function highlightArchive(dateStr){
+  document.querySelectorAll('.archive-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.date === dateStr);
+  });
+}
+
+function refreshArchiveList(){
+  const listEl = document.getElementById('archiveList');
+  const keys = Object.keys(localStorage).filter(k => k.startsWith('brief:'));
+  const dates = keys.map(k => k.replace('brief:', '')).sort((a,b) => b.localeCompare(a));
+  listEl.innerHTML = '';
+  if(dates.length === 0){
+    listEl.innerHTML = `<div class="mono" style="font-size:11px; color:var(--muted); padding:8px 12px;">아직 쌓인 브리핑이 없어요.</div>`;
+    return;
+  }
+  dates.forEach(dateStr => {
+    const el = document.createElement('div');
+    el.className = 'archive-item';
+    el.dataset.date = dateStr;
+    el.innerHTML = `<span>${formatDateLabel(dateStr)}</span><span>→</span>`;
+    el.onclick = () => loadArchivedDate(dateStr);
+    listEl.appendChild(el);
+  });
+}
+
+document.getElementById('refreshBtn').onclick = () => loadToday(true);
+document.getElementById('archiveToggle').onclick = () => {
+  const list = document.getElementById('archiveList');
+  const arrow = document.getElementById('archiveArrow');
+  list.classList.toggle('collapsed');
+  arrow.textContent = list.classList.contains('collapsed') ? '▸' : '▾';
+};
+
+refreshArchiveList();
+loadToday(false);
+</script>
+</body>
+</html>
