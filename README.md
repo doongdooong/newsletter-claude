@@ -3,29 +3,30 @@
 매일 아침 관심 분야(채용·HR·조직문화 / 국내 대기업 사업동향 / AI·테크) 뉴스를
 자동 수집·요약해서, 아이폰 홈 화면에서 앱처럼 열어보는 개인용 도구.
 
-## 시스템 구조 (3단계 파이프라인)
+## 시스템 구조 (전부 이 저장소 하나로 통합)
 
-1. **생성**: Claude Code 스케줄 작업이 매일 오전 7시(KST) 실행 → 웹서치로 뉴스 수집 → JSON으로 구조화
+1. **생성**: Claude Code 클라우드 스케줄 작업(routine)이 매일 오전 7시(KST) 실행 → 웹서치로 뉴스 수집 → JSON으로 구조화
    (프롬프트 원문: [briefing-task.md](./briefing-task.md))
-2. **저장**: 결과를 Google Drive의 **고정 파일**(`latest-briefing.json`, 아래 파일 ID)에 `update`로 덮어쓰기
-   - 파일 ID: `1o04rrBn-KDCIO-g5Tn1MEXQi8D81xcBW`
-   - ⚠️ 반드시 이 ID의 파일을 **update**(내용만 교체)해야 함. 새 파일을 생성하면 안 됨 —
-     기존 새 파일 생성 방식은 공유 권한이 상속되지 않아 웹앱이 계속 옛날 파일을 보는 버그가 있었음 (2026-08-27 발견, 아래 트러블슈팅 참고).
-3. **표시**: `index.html` (GitHub Pages)이 Google Drive REST API로 그 파일을 읽어와 카드 UI로 렌더링
-   - `https://www.googleapis.com/drive/v3/files/{FILE_ID}?alt=media&key={API_KEY}`
+2. **저장**: 결과를 이 저장소의 `latest-briefing.json` 파일로 커밋 & push
+3. **표시**: `index.html` (GitHub Pages)이 같은 저장소의 `latest-briefing.json`을 `fetch`로 읽어와 카드 UI로 렌더링
+
+> 2026-08-27 이전에는 Google Drive에 데이터를 저장하고 웹앱이 Drive API(+ API 키)로 읽어오는
+> 3단계(Claude 앱 Scheduled Task / Google Drive / GitHub Pages) 구조였음. 관리 지점이 세 군데로
+> 흩어져 있고 수정이 번거로워서, 전부 이 GitHub 저장소 + Claude Code 스케줄 하나로 합침.
+> Drive, API 키, 공유 권한 설정이 전부 필요 없어짐. (자세한 배경은 아래 트러블슈팅 이력 참고)
 
 ## 배포
 
-- **호스팅**: GitHub Pages, 이 저장소의 `index.html` (파일명 하나로 통일됨, 과거 `index_1/2/3.html` 정리 완료)
+- **호스팅**: GitHub Pages, 이 저장소의 `index.html`
 - **URL**: https://doongdooong.github.io/newsletter-claude/
 - **접근**: 아이폰 Safari → 홈 화면에 추가 (PWA, 네이티브 앱 아님)
 
-## 데이터 소스 연결
+## 자동화 (Claude Code 스케줄)
 
-- Google Drive 파일을 "링크가 있는 모든 사용자 → 뷰어"로 공개 설정 (이 설정은 파일을 최초 생성할 때만 하면 됨. 이후로는 같은 파일을 계속 `update`하므로 재설정 불필요)
-- 웹앱은 Google Cloud **API 키**로 Drive REST API 직접 호출 (`index.html` 상단에 하드코딩)
-- API 키 설정: "API 제한사항 = Google Drive API만", "애플리케이션 제한사항 = 없음"
-  (HTTP 리퍼러 제한은 iOS Safari 호환성 문제로 포기함)
+- claude.ai의 [routines](https://claude.ai/code/routines)에 `morning-briefing`이라는 이름으로 등록되어 있음
+- 매일 07:00 KST(cron `0 22 * * *`, UTC 기준)에 클라우드에서 실행
+- 실행 내용: 이 저장소를 체크아웃 → `briefing-task.md` 지시대로 뉴스 수집·JSON 작성 → `latest-briefing.json`을 커밋하고 push
+- 스케줄 시간이나 실행 내용을 바꾸려면: Claude Code에서 `/schedule` (또는 "스케줄 수정해줘") 라고 말하면 됨
 
 ## JSON 스키마
 
@@ -58,15 +59,14 @@
 
 ## 트러블슈팅 이력
 
-- GitHub Public 저장소에 API 키가 노출되어 보안 경고 수신 → 키 폐기 후 재발급, 최소 권한으로 제한
+- GitHub Public 저장소에 API 키가 노출되어 보안 경고 수신 → 키 폐기 후 재발급, 최소 권한으로 제한 (2026-08-27 Drive 방식 폐기로 API 키 자체가 필요 없어져 이 문제는 해소됨)
 - 403 (리퍼러 차단) → 원인: 브라우저가 빈 리퍼러로 요청 → 메타 태그 시도했으나 iOS Safari에서 미해결
-  → 리퍼러 제한 해제, "Drive 읽기 전용" 권한으로만 방어
 - 400 (Bad Request) → 원인: API 키 만료 → 재발급으로 해결
-- **(2026-08-27) 브리핑이 하루씩 밀려 보임** → 원인: 매일 "파일 찾아서 없으면 생성" 방식으로 동작하면서 실제로는 매번 새 파일이 생성되고 있었고, 새 파일은 공개 공유 권한이 없어 웹앱이 계속 옛날 고정 ID의 파일(전날 데이터)만 보여주고 있었음
-  → 해결: 파이프라인을 Claude Code 스케줄로 이전하면서, 항상 같은 파일 ID를 `update`(덮어쓰기)하도록 변경. 관리 주체를 Claude 앱 Scheduled Task + Drive 웹 + GitHub 웹 3곳에서 이 저장소(Claude Code) 하나로 통합
+- **(2026-08-27) 브리핑이 하루씩 밀려 보임** → 원인: Google Drive에 매일 "파일 찾아서 없으면 생성" 방식으로 저장했는데, 실제로는 매번 새 파일이 생성되고 있었고 새 파일은 공개 공유 권한이 없어 웹앱이 계속 옛날 고정 ID의 파일(전날 데이터)만 보여주고 있었음
+  → 해결: Drive를 아예 제거하고, 데이터를 이 GitHub 저장소 안에 직접 저장하는 구조로 전환. Claude 앱 Scheduled Task + Drive 웹 + GitHub 웹 3곳에 흩어져 있던 관리 지점을 이 저장소 + Claude Code 스케줄 하나로 통합
 
 ## 다음에 할 만한 작업 후보
 
 - [ ] 오프라인에서도 마지막 브리핑이 보이도록 서비스워커 캐싱 추가 (선택)
 - [ ] 아카이브 UI 개선 (현재는 `localStorage` 기반이라 기기 변경 시 기록 소실)
-- [ ] Google Cloud Console에서 API 키 제한사항이 여전히 "Drive API만"으로 걸려있는지 주기적 확인
+- [ ] (완료 후 정리) 기존 Claude 앱 Scheduled Task 삭제, Google Cloud의 옛 API 키 폐기, Drive의 옛 `latest-briefing.json` 파일 정리

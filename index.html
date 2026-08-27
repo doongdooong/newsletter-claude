@@ -9,18 +9,6 @@
 <title>아침 브리핑 데스크</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-
-/* =========================================================
-   ⬇️⬇️⬇️ 여기 두 줄만 수정하면 돼 (STEP 2, 3에서 복사한 값) ⬇️⬇️⬇️
-   ========================================================= */
-</style>
-<script>
-  const DRIVE_FILE_ID = "1o04rrBn-KDCIO-g5Tn1MEXQi8D81xcBW";
-  const GOOGLE_API_KEY = "AIzaSyBMK1vfQBzXZWIOzPVdWcm_Cc4vEn0wrwg";
-</script>
-<style>
-/* ↑↑↑ 위 두 줄 수정 끝. 아래는 안 건드려도 돼 ↑↑↑ */
-
   :root{
     --ink:#16151F;
     --card:#201F2C;
@@ -162,14 +150,13 @@ function safeUrl(url){
   return '#';
 }
 
-async function fetchFromDrive(){
-  if(DRIVE_FILE_ID.includes('여기에') || GOOGLE_API_KEY.includes('여기에')){
-    throw new Error('설정이 안 끝났어요. 코드 맨 위 DRIVE_FILE_ID와 GOOGLE_API_KEY를 채워주세요.');
-  }
-  const url = `https://www.googleapis.com/drive/v3/files/${DRIVE_FILE_ID}?alt=media&key=${GOOGLE_API_KEY}`;
-  const res = await fetch(url);
+async function fetchBriefing(){
+  // 같은 저장소(GitHub Pages) 안의 latest-briefing.json을 읽어옴.
+  // ?t=timestamp는 브라우저/CDN이 옛날 버전을 캐싱해서 보여주는 걸 막기 위한 캐시 무효화 트릭.
+  const url = `./latest-briefing.json?t=${Date.now()}`;
+  const res = await fetch(url, { cache: 'no-store' });
   if(!res.ok){
-    throw new Error(`드라이브에서 파일을 가져오지 못했어요 (상태: ${res.status}). 파일 공유 설정이 "링크가 있는 모든 사용자"인지 확인해주세요.`);
+    throw new Error(`브리핑 파일을 가져오지 못했어요 (상태: ${res.status}). latest-briefing.json이 저장소에 있는지 확인해주세요.`);
   }
   return await res.json();
 }
@@ -230,7 +217,7 @@ async function loadToday(forceFetch){
   renderLoading();
 
   try{
-    const briefing = await fetchFromDrive();
+    const briefing = await fetchBriefing();
     localStorage.setItem(`brief:${briefing.date || dateStr}`, JSON.stringify(briefing));
     renderBriefing(briefing);
     refreshArchiveList();
