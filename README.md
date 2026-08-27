@@ -30,6 +30,9 @@
 
 ## JSON 스키마
 
+- 카테고리당 헤드라인 최대 2개 (조건에 맞는 기사가 없으면 그 카테고리 자체가 배열에서 빠짐)
+- 실행 시점 기준 최근 72시간 이내 발행된 기사만 포함 (선정 규칙 전체는 [briefing-task.md](./briefing-task.md) 참고)
+
 ```json
 {
   "date": "YYYY-MM-DD",
@@ -38,8 +41,8 @@
       "name": "채용·HR·조직문화 | 국내 대기업 사업동향 | AI·테크 전반",
       "items": [
         {
-          "headline": "string",
-          "summary": "string (2문장 이내)",
+          "headline": "string (후속 업데이트인 경우 \"[업데이트] \" 접두어)",
+          "summary": "string (2문장 이내, 업데이트는 1문장)",
           "source": "string",
           "url": "string",
           "hrComment": "string (선택)"
