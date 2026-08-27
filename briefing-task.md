@@ -51,15 +51,25 @@ routine 설정을 바꿀 필요 없음.
 }
 ```
 
-**저장 방법 (중요):**
-이 저장소(현재 체크아웃되어 있는 `newsletter-claude`) 루트의 `latest-briefing.json` 파일 내용을
-위 JSON으로 완전히 덮어써. 그 다음 아래 순서로 커밋하고 push까지 반드시 끝내:
+**저장 방법 (중요, 아카이브 구조):**
+
+브리핑은 매일 새 파일로 저장돼. 오늘 날짜를 `YYYY-MM-DD`라고 할 때:
+
+1. 위 JSON을 `archive/YYYY-MM-DD.json`으로 저장해 (파일이 이미 있으면 덮어써도 됨 — 같은 날
+   재실행된 경우).
+2. `archive/index.json`을 읽어서(없으면 빈 배열로 시작) 오늘 날짜를 배열에 추가해. **이미
+   들어있으면 중복으로 추가하지 마.** 배열은 날짜 오름차순으로 정렬해서 저장해.
+   예: `["2026-08-25", "2026-08-26", "2026-08-27"]`
+3. 아래처럼 커밋하고 push까지 반드시 끝내:
 
 ```
-git add latest-briefing.json
+git add archive/YYYY-MM-DD.json archive/index.json
 git commit -m "브리핑 업데이트: YYYY-MM-DD"
 git push origin main
 ```
+
+(참고: 저장소 루트에 있던 `latest-briefing.json`은 더 이상 안 씀. 웹앱은 `archive/index.json`과
+`archive/YYYY-MM-DD.json`만 읽음.)
 
 push까지 성공해야 웹앱(GitHub Pages)에 반영돼. push가 실패하면(권한 오류 등) 그 에러 메시지를
 그대로 결과에 남겨줘 — 사용자가 원인을 파악할 수 있어야 해.
