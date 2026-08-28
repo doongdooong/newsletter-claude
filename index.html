@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#FFFFFF">
-<title>아침 브리핑 데스크</title>
+<title>뉴스레터</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -38,7 +38,7 @@
     padding-bottom:16px; margin-bottom:20px; border-bottom:1px solid var(--hairline);
     gap:10px;
   }
-  .title-block{ min-width:0; }
+  .title-block{ min-width:0; flex:1; text-align:center; }
   .title-block h1{ font-size:20px; margin:0 0 4px; font-weight:900; letter-spacing:-0.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .date-line{ font-size:12px; color:var(--muted); letter-spacing:0.02em; }
 
@@ -141,7 +141,18 @@
 
   .drawer-empty{ padding:20px 14px; font-size:12.5px; color:var(--muted); }
 
-  .bm-item{ padding:12px; border-radius:8px; margin-bottom:6px; background:var(--ink); border:1px solid var(--hairline); }
+  .bm-row{ position:relative; border-radius:8px; margin-bottom:6px; overflow:hidden; }
+  .bm-delete-zone{
+    position:absolute; top:0; bottom:0; left:0; width:64px; display:flex;
+    align-items:center; justify-content:center; background:#C0392B;
+  }
+  .bm-delete-btn{ background:none; border:none; color:#fff; font-size:19px; cursor:pointer; padding:10px; }
+  .bm-item{
+    position:relative; padding:12px; border-radius:8px; background:var(--ink);
+    border:1px solid var(--hairline); transform:translateX(0);
+    transition:transform .2s ease; touch-action:pan-y; user-select:none;
+  }
+  .bm-item.dragging{ transition:none; }
   .bm-item .bm-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:6px; }
   .bm-item .bm-cat{
     font-family:'JetBrains Mono', monospace; font-size:9.5px; letter-spacing:0.06em;
@@ -151,18 +162,18 @@
   .bm-item h4 a{ color:var(--paper); text-decoration:none; }
   .bm-item h4 a:hover{ text-decoration:underline; }
   .bm-item .bm-meta{ font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); }
-  .bm-remove{ flex:0 0 auto; background:none; border:none; cursor:pointer; font-size:16px; color:var(--star); padding:2px; }
+  .bm-hint{ padding:4px 4px 14px; font-size:11px; color:var(--muted); text-align:center; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="topbar">
-    <button class="icon-btn" id="sidebarBtn" aria-label="지난 브리핑">☰</button>
+    <button class="icon-btn" id="sidebarBtn" aria-label="지난 브리핑">🕒</button>
     <div class="title-block">
-      <h1>아침 브리핑 데스크</h1>
+      <h1>뉴스레터</h1>
       <div class="date-line mono" id="dateLine">—</div>
     </div>
-    <button class="icon-btn" id="bookmarkBtn" aria-label="북마크 보관함">☰</button>
+    <button class="icon-btn" id="bookmarkBtn" aria-label="북마크 보관함">🔖</button>
   </div>
 
   <div id="content">
@@ -349,34 +360,108 @@ function renderDateList(){
 }
 
 function renderBookmarkList(){
+  openSwipeItem = null;
   const listEl = document.getElementById('bookmarkList');
   if(!bookmarks.length){
     listEl.innerHTML = `<div class="drawer-empty">아직 북마크한 뉴스가 없어요. 헤드라인 옆 별표를 눌러보세요.</div>`;
     return;
   }
   const sorted = bookmarks.slice().sort((a,b) => b.date.localeCompare(a.date) || b.savedAt - a.savedAt);
-  listEl.innerHTML = '';
+  listEl.innerHTML = `<div class="bm-hint">← 항목을 오른쪽으로 밀면 삭제할 수 있어요</div>`;
   sorted.forEach(b => {
-    const el = document.createElement('div');
-    el.className = 'bm-item';
-    el.innerHTML = `
-      <div class="bm-top">
-        <div style="min-width:0;">
-          <div class="bm-cat">${escapeHtml(b.category)} · ${escapeHtml(b.date)}</div>
-          <h4><a href="${safeUrl(b.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(b.headline)}</a></h4>
-          <div class="bm-meta">${escapeHtml(b.source || '')}</div>
+    const row = document.createElement('div');
+    row.className = 'bm-row';
+    row.innerHTML = `
+      <div class="bm-delete-zone"><button class="bm-delete-btn" aria-label="삭제">🗑</button></div>
+      <div class="bm-item">
+        <div class="bm-top">
+          <div style="min-width:0;">
+            <div class="bm-cat">${escapeHtml(b.category)} · ${escapeHtml(b.date)}</div>
+            <h4><a href="${safeUrl(b.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(b.headline)}</a></h4>
+            <div class="bm-meta">${escapeHtml(b.source || '')}</div>
+          </div>
         </div>
-        <button class="bm-remove" data-id="${escapeHtml(b.id)}">★</button>
       </div>
     `;
-    el.querySelector('.bm-remove').addEventListener('click', () => {
+    const itemEl = row.querySelector('.bm-item');
+    const deleteBtn = row.querySelector('.bm-delete-btn');
+    const removeThis = () => {
       bookmarks = bookmarks.filter(x => x.id !== b.id);
       saveBookmarks();
       renderBookmarkList();
       if(currentBriefing) renderBriefing(currentBriefing);
-    });
-    listEl.appendChild(el);
+    };
+    deleteBtn.addEventListener('click', removeThis);
+    attachSwipeToDelete(itemEl);
+    listEl.appendChild(row);
   });
+}
+
+// ---------- 북마크 스와이프 삭제 ----------
+
+const REVEAL_WIDTH = 64;
+let openSwipeItem = null;
+
+function closeSwipeItem(el){
+  if(!el) return;
+  el.classList.remove('dragging');
+  el.style.transform = 'translateX(0px)';
+  el.dataset.open = '';
+  if(openSwipeItem === el) openSwipeItem = null;
+}
+
+function attachSwipeToDelete(el){
+  let startX = 0, startY = 0, dx = 0, dragging = false, decided = false, blockClick = false;
+
+  el.addEventListener('pointerdown', (e) => {
+    if(openSwipeItem && openSwipeItem !== el) closeSwipeItem(openSwipeItem);
+    startX = e.clientX; startY = e.clientY; dx = 0; dragging = false; decided = false;
+  });
+
+  el.addEventListener('pointermove', (e) => {
+    const curDx = e.clientX - startX;
+    const curDy = e.clientY - startY;
+    if(!decided){
+      if(Math.abs(curDx) > 8 && Math.abs(curDx) > Math.abs(curDy) * 1.2){
+        decided = true; dragging = true;
+        el.classList.add('dragging');
+        el.setPointerCapture(e.pointerId);
+      } else if(Math.abs(curDy) > 8){
+        decided = true; dragging = false; // vertical scroll, let it pass
+      }
+    }
+    if(dragging){
+      e.preventDefault();
+      const base = el.dataset.open === '1' ? REVEAL_WIDTH : 0;
+      dx = Math.max(0, Math.min(REVEAL_WIDTH, base + curDx));
+      el.style.transform = `translateX(${dx}px)`;
+    }
+  });
+
+  const finish = (e) => {
+    if(dragging){
+      el.classList.remove('dragging');
+      if(dx > REVEAL_WIDTH * 0.4){
+        el.style.transform = `translateX(${REVEAL_WIDTH}px)`;
+        el.dataset.open = '1';
+        openSwipeItem = el;
+        blockClick = true;
+      } else {
+        closeSwipeItem(el);
+      }
+    } else if(el.dataset.open === '1'){
+      // 열려있는 상태에서 그냥 탭하면 닫기만 하고 링크 이동은 막음
+      closeSwipeItem(el);
+      blockClick = true;
+    }
+    dragging = false; decided = false;
+  };
+  el.addEventListener('pointerup', finish);
+  el.addEventListener('pointercancel', finish);
+
+  el.addEventListener('click', (e) => {
+    if(blockClick){ e.preventDefault(); e.stopPropagation(); blockClick = false; }
+  }, true);
 }
 
 // ---------- 북마크 저장 ----------
