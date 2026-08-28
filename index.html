@@ -74,6 +74,9 @@
   .item h3 a:hover{ text-decoration:underline; }
   .item p{ font-size:13.5px; line-height:1.65; color:#3A3A3A; margin:0 0 8px; }
   .item .source{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--muted); }
+  .item .prev-link{ margin-top:6px; font-size:12px; color:var(--muted); }
+  .item .prev-link a{ color:var(--muted); text-decoration:underline; text-decoration-color:var(--hairline); }
+  .item .prev-link a:hover{ color:var(--paper); }
   .item .hr-comment{
     margin-top:8px; padding:8px 10px; background:rgba(0,0,0,0.035);
     border-radius:6px; font-family:'JetBrains Mono', monospace; font-size:11px;
@@ -322,6 +325,7 @@ function renderBriefing(briefing){
         </div>
         <p>${escapeHtml(item.summary)}</p>
         <div class="source">${escapeHtml(item.source || '')}</div>
+        ${item.previousUrl && item.previousHeadline ? `<div class="prev-link">이전 기사 읽기: <a href="${safeUrl(item.previousUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.previousHeadline)}</a></div>` : ''}
         ${item.hrComment ? `<div class="hr-comment">HR 관점 · ${escapeHtml(item.hrComment)}</div>` : ''}
       `;
       el.querySelector('.star-btn').addEventListener('click', () => {

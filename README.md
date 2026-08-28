@@ -60,7 +60,9 @@ briefing-task.md        # 스케줄 작업이 매일 읽는 수집 프롬프트
           "summary": "string (2문장 이내, 업데이트는 1문장)",
           "source": "string",
           "url": "string",
-          "hrComment": "string (선택)"
+          "hrComment": "string (선택)",
+          "previousHeadline": "string (업데이트인 경우에만: 어제 다뤘던 원래 기사 헤드라인)",
+          "previousUrl": "string (업데이트인 경우에만: 그 원래 기사 링크)"
         }
       ]
     }
@@ -75,6 +77,8 @@ briefing-task.md        # 스케줄 작업이 매일 읽는 수집 프롬프트
   저장됨** — 서버/저장소에는 안 올라가므로 기기를 바꾸거나 브라우저 데이터를 지우면 사라짐.
   보관함에서는 항목을 오른쪽으로 밀면 삭제 버튼이 나타남.
 - **오른쪽 상단 메뉴** (책갈피 아이콘): 북마크한 뉴스 모아보기, 스와이프로 개별 항목 제거 가능.
+- **[업데이트] 항목의 이전 기사 링크**: `previousHeadline`/`previousUrl`이 있는 항목은 본문
+  아래에 "이전 기사 읽기: {헤드라인}" 링크가 표시됨.
 
 ## 디자인 컨셉
 
