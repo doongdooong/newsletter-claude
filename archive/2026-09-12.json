@@ -1,0 +1,47 @@
+{
+  "date": "2026-09-12",
+  "categories": [
+    {
+      "name": "채용·HR·조직문화",
+      "items": [
+        {
+          "headline": "도쿄일렉트론코리아, '2026 대한민국 일자리 으뜸기업' 통산 6번째 선정",
+          "summary": "고용노동부가 11일 발표한 '2026 대한민국 일자리 으뜸기업'에 도쿄일렉트론코리아가 2018·2020·2021·2023·2025년에 이어 통산 6번째로 이름을 올렸다. 체험형 인턴십 운영과 청년·취업 취약계층 일자리 확대 성과를 인정받았다.",
+          "source": "헤럴드경제",
+          "url": "https://biz.heraldcorp.com/article/10870132",
+          "hrComment": "6회 연속 선정은 이례적인 기록으로, 외국계 제조업체의 청년 인턴십·채용 모델이 국내 기업 HR 벤치마크로 참고할 만하다."
+        }
+      ]
+    },
+    {
+      "name": "국내 대기업 사업동향",
+      "items": [
+        {
+          "headline": "LG AI연구원, 국민연금공단과 '기금운용 특화 AI' 공동 개발",
+          "summary": "LG AI연구원과 국민연금공단이 11일 서울 마곡 LG AI연구원 본사에서 기금운용 업무에 특화된 AI를 함께 개발하는 업무협약을 체결했다. 양측은 LG의 금융 AI 에이전트 '엑사원 BI'를 활용해 환율 분석 서비스 등 기금운용 예측·분석 모델을 우선 구축할 계획이다.",
+          "source": "파이낸셜뉴스",
+          "url": "https://www.fnnews.com/news/202609111533272981"
+        }
+      ]
+    },
+    {
+      "name": "AI·테크 전반",
+      "items": [
+        {
+          "headline": "[업데이트] 오픈AI, '프로' 요금제 신규 가입 전격 중단",
+          "summary": "오픈AI가 'GPT-6 아스트라' 수요 폭증에 따른 서버 과부하로 월 200달러 '챗GPT 프로' 요금제의 신규 가입·업그레이드를 일시 중단했다.",
+          "source": "AI타임스",
+          "url": "https://www.aitimes.com/news/articleView.html?idxno=215118",
+          "previousHeadline": "오픈AI, '아스트라' 수요 폭증에 유료 신규 가입 일시 중단 검토",
+          "previousUrl": "https://www.aitimes.com/news/articleView.html?idxno=215089"
+        },
+        {
+          "headline": "캘리포니아, 16세 미만 대상 AI 챗봇·SNS 중독기능 규제법 서명",
+          "summary": "개빈 뉴섬 캘리포니아 주지사가 10일(현지시간) 미성년자 온라인 안전 강화를 위한 법안 13건에 서명했다. AI 챗봇은 이용자에게 AI임을 고지하고 정신건강 프로토콜을 갖춰야 하며, 16세 미만 대상 SNS 중독성 기능도 제한된다.",
+          "source": "AI타임스",
+          "url": "https://www.aitimes.com/news/articleView.html?idxno=215153"
+        }
+      ]
+    }
+  ]
+}
