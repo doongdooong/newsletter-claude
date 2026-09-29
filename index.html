@@ -68,6 +68,8 @@
   }
   .search-toggle-btn:hover, .icon-inline-btn:hover{ background:var(--card-hover); }
   .search-toggle-btn svg, .icon-inline-btn svg{ width:17px; height:17px; }
+  /* display:flex가 [hidden]의 UA display:none보다 우선 적용되는 걸 막음 */
+  .icon-inline-btn[hidden]{ display:none; }
 
   .sort-popup{
     position:absolute; top:calc(100% + 8px); right:0; z-index:45; width:200px;
