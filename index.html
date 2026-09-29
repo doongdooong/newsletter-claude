@@ -33,11 +33,8 @@
   .mono{ font-family:'JetBrains Mono', ui-monospace, monospace; }
   .wrap{ max-width:720px; margin:0 auto; padding:16px 18px 80px; }
 
-  .topbar{
-    display:flex; justify-content:space-between; align-items:center;
-    padding-bottom:16px; margin-bottom:20px; border-bottom:1px solid var(--hairline);
-    gap:10px;
-  }
+  .header{ padding-bottom:16px; margin-bottom:20px; border-bottom:1px solid var(--hairline); }
+  .topbar{ display:flex; justify-content:space-between; align-items:center; gap:10px; }
   .title-block{ min-width:0; flex:1; text-align:center; }
   .title-block h1{ font-size:20px; margin:0 0 4px; font-weight:900; letter-spacing:-0.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .date-line{ font-size:12px; color:var(--muted); letter-spacing:0.02em; }
@@ -50,6 +47,48 @@
   }
   .icon-btn:hover{ background:var(--card-hover); }
   .icon-btn svg{ width:18px; height:18px; display:block; }
+  .icon-btn.small{ width:32px; height:32px; }
+  .icon-btn.small svg{ width:16px; height:16px; }
+
+  /* ---------- 검색 ---------- */
+  .search-bar{
+    display:flex; align-items:center; gap:4px; margin-top:14px;
+    background:var(--card); border:1px solid var(--hairline); border-radius:999px;
+    padding:3px 4px 3px 16px;
+  }
+  .search-input{
+    flex:1; min-width:0; border:none; background:none; outline:none;
+    font-family:'Noto Serif KR', Georgia, serif; font-size:14px; color:var(--paper);
+    padding:9px 0;
+  }
+  .search-toggle-btn{
+    flex:0 0 auto; width:34px; height:34px; border-radius:50%; border:none;
+    background:none; color:var(--muted); display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .search-toggle-btn:hover{ background:var(--card-hover); }
+  .search-toggle-btn svg{ width:18px; height:18px; }
+
+  .sort-row{ position:relative; margin-top:10px; display:flex; justify-content:flex-end; }
+  .sort-popup{
+    position:absolute; top:calc(100% + 6px); right:0; z-index:45; width:200px;
+    background:var(--card); border:1px solid var(--hairline); border-radius:10px;
+    padding:12px; box-shadow:0 10px 28px rgba(0,0,0,0.14);
+  }
+  .sort-popup-section{ margin-bottom:12px; }
+  .sort-popup-section:last-child{ margin-bottom:0; }
+  .sort-popup-label{
+    font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px;
+  }
+  .segmented{ display:flex; border:1px solid var(--hairline); border-radius:7px; overflow:hidden; }
+  .seg-btn{
+    flex:1; background:none; border:none; padding:6px 0; cursor:pointer;
+    font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted);
+  }
+  .seg-btn.active{ background:var(--paper); color:var(--ink); }
+  .chk-row{ display:flex; align-items:center; gap:7px; font-size:13px; padding:4px 0; cursor:pointer; }
+  .chk-row input{ accent-color:var(--paper); width:14px; height:14px; }
 
   .item{
     background:var(--card); border-radius:10px; border-left:4px solid var(--muted);
@@ -114,6 +153,7 @@
   }
   .overlay.show{ opacity:1; pointer-events:auto; }
 
+  /* ---------- 북마크 드로어 ---------- */
   .drawer{
     position:fixed; top:0; left:0; height:100%; width:280px; max-width:82vw;
     background:var(--card); border-right:1px solid var(--hairline);
@@ -134,16 +174,6 @@
   }
   .drawer-close{ background:none; border:none; font-size:20px; cursor:pointer; color:var(--muted); line-height:1; }
   .drawer-body{ flex:1; overflow-y:auto; padding:8px; }
-
-  .date-item{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:11px 12px; border-radius:6px; cursor:pointer;
-    font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--paper);
-  }
-  .date-item:hover{ background:var(--card-hover); }
-  .date-item.active{ background:var(--card-hover); border:1px solid var(--hairline); }
-  .date-item .weekday{ color:var(--muted); font-size:11px; }
-
   .drawer-empty{ padding:20px 14px; font-size:12.5px; color:var(--muted); }
 
   .bm-row{ position:relative; border-radius:8px; margin-bottom:6px; overflow:hidden; }
@@ -169,21 +199,94 @@
   .bm-item h4 a:hover{ text-decoration:underline; }
   .bm-item .bm-meta{ font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); }
   .bm-hint{ padding:4px 4px 14px; font-size:11px; color:var(--muted); text-align:center; }
+
+  /* ---------- 캘린더 모달 ---------- */
+  .calendar-modal{
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.96);
+    width:320px; max-width:88vw; max-height:80vh; overflow-y:auto;
+    background:var(--card); border:1px solid var(--hairline); border-radius:14px;
+    z-index:50; opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease;
+    display:flex; flex-direction:column;
+  }
+  .calendar-modal.open{ opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1); }
+  .cal-nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px 4px; }
+  .cal-nav-btn{
+    background:none; border:none; font-size:19px; color:var(--muted); cursor:pointer;
+    width:30px; height:30px; border-radius:6px; line-height:1;
+  }
+  .cal-nav-btn:hover{ background:var(--card-hover); }
+  .cal-label{ font-size:13px; letter-spacing:0.04em; }
+  .cal-weekdays{
+    display:grid; grid-template-columns:repeat(7,1fr); padding:6px 14px 2px;
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--muted); text-align:center;
+  }
+  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; padding:4px 14px 16px; }
+  .cal-cell{
+    aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    border-radius:50%; font-family:'JetBrains Mono', monospace; font-size:12.5px;
+    color:var(--muted); position:relative;
+  }
+  .cal-cell.empty{ visibility:hidden; }
+  .cal-cell.has-data{ color:var(--paper); cursor:pointer; }
+  .cal-cell.has-data:hover{ background:var(--card-hover); }
+  .cal-cell.has-data::after{
+    content:''; position:absolute; bottom:2px; width:4px; height:4px;
+    border-radius:50%; background:var(--hr-accent);
+  }
+  .cal-cell.today{ box-shadow:inset 0 0 0 1px var(--hairline); }
+  .cal-cell.active{ background:var(--paper); color:var(--ink); }
+  .cal-cell.active::after{ background:var(--ink); }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="topbar">
-    <button class="icon-btn" id="sidebarBtn" aria-label="지난 브리핑">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>
-    </button>
-    <div class="title-block">
-      <h1>뉴스레터</h1>
-      <div class="date-line mono" id="dateLine">—</div>
+  <div class="header">
+    <div class="topbar">
+      <button class="icon-btn" id="calendarBtn" aria-label="날짜 선택">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17"/><path d="M8 3v4M16 3v4"/></svg>
+      </button>
+      <div class="title-block">
+        <h1>뉴스레터</h1>
+        <div class="date-line mono" id="dateLine">—</div>
+      </div>
+      <button class="icon-btn" id="bookmarkBtn" aria-label="북마크 보관함">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7 4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16.2l-5-3.4-5 3.4V4Z"/></svg>
+      </button>
     </div>
-    <button class="icon-btn" id="bookmarkBtn" aria-label="북마크 보관함">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7 4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16.2l-5-3.4-5 3.4V4Z"/></svg>
-    </button>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" class="search-input" autocomplete="off" spellcheck="false" aria-label="뉴스 검색">
+      <button class="search-toggle-btn" id="searchToggleBtn" aria-label="검색">
+        <svg id="searchIconGlass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg>
+        <svg id="searchIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" hidden><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
+    <div class="sort-row" id="sortRow" hidden>
+      <button class="icon-btn small" id="sortBtn" aria-label="정렬">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+          <circle cx="15" cy="6" r="2" fill="currentColor" stroke="none"/>
+          <circle cx="8" cy="12" r="2" fill="currentColor" stroke="none"/>
+          <circle cx="13" cy="18" r="2" fill="currentColor" stroke="none"/>
+        </svg>
+      </button>
+      <div class="sort-popup" id="sortPopup" hidden>
+        <div class="sort-popup-section">
+          <div class="sort-popup-label">시간순</div>
+          <div class="segmented" id="sortSegmented">
+            <button class="seg-btn active" data-order="desc" type="button">최신순</button>
+            <button class="seg-btn" data-order="asc" type="button">오래된순</button>
+          </div>
+        </div>
+        <div class="sort-popup-section">
+          <div class="sort-popup-label">카테고리</div>
+          <label class="chk-row"><input type="checkbox" data-tone="hr" checked> HR</label>
+          <label class="chk-row"><input type="checkbox" data-tone="biz" checked> 대기업</label>
+          <label class="chk-row"><input type="checkbox" data-tone="ai" checked> AI·테크</label>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="content">
@@ -193,20 +296,26 @@
 
 <div class="overlay" id="overlay"></div>
 
-<div class="drawer" id="sidebarDrawer">
-  <div class="drawer-header">
-    <span>지난 브리핑</span>
-    <button class="drawer-close" id="sidebarClose">✕</button>
-  </div>
-  <div class="drawer-body" id="dateList"></div>
-</div>
-
 <div class="drawer drawer-right" id="bookmarkDrawer">
   <div class="drawer-header">
     <span>북마크 보관함</span>
     <button class="drawer-close" id="bookmarkClose">✕</button>
   </div>
   <div class="drawer-body" id="bookmarkList"></div>
+</div>
+
+<div class="calendar-modal" id="calendarModal">
+  <div class="drawer-header">
+    <span>지난 브리핑</span>
+    <button class="drawer-close" id="calendarClose">✕</button>
+  </div>
+  <div class="cal-nav">
+    <button class="cal-nav-btn" id="calPrev" aria-label="이전 달">‹</button>
+    <div class="cal-label mono" id="calLabel">—</div>
+    <button class="cal-nav-btn" id="calNext" aria-label="다음 달">›</button>
+  </div>
+  <div class="cal-weekdays"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
+  <div class="cal-grid" id="calGrid"></div>
 </div>
 
 <script>
@@ -260,7 +369,6 @@ async function loadArchiveIndex(){
   }catch(e){
     archiveDates = [];
   }
-  renderDateList();
 }
 
 async function loadDate(dateStr){
@@ -272,7 +380,6 @@ async function loadDate(dateStr){
     currentBriefing = briefing;
     document.getElementById('dateLine').textContent = formatDateLabel(currentDate);
     renderBriefing(briefing);
-    renderDateList();
   }catch(e){
     document.getElementById('dateLine').textContent = formatDateLabel(dateStr);
     renderError(e.message || String(e), dateStr);
@@ -289,15 +396,43 @@ async function loadInitial(){
     return;
   }
   await loadDate(target);
+  ensureSearchIndex(); // 검색을 위해 미리 백그라운드로 전체 아카이브를 받아둠
 }
 
-// ---------- 렌더링 ----------
+// ---------- 카드 렌더링 (오늘자 브리핑 / 검색 결과 공용) ----------
 
 function bookmarkId(dateStr, item){
   return `${dateStr}__${item.url || item.headline}`;
 }
 function isBookmarked(id){
   return bookmarks.some(b => b.id === id);
+}
+function refreshCurrentView(){
+  if(searchActive) doSearch();
+  else if(currentBriefing) renderBriefing(currentBriefing);
+}
+
+function buildItemCard(item, dateStr, tone, label, categoryFullName, opts){
+  opts = opts || {};
+  const id = bookmarkId(dateStr, item);
+  const el = document.createElement('div');
+  el.className = 'item';
+  el.setAttribute('data-tone', tone);
+  el.innerHTML = `
+    <div class="item-tag">${escapeHtml(label)}${opts.showDate ? ` · ${escapeHtml(dateStr)}` : ''}</div>
+    <div class="item-head">
+      <h3><a href="${safeUrl(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.headline)}</a></h3>
+      <button class="star-btn ${isBookmarked(id) ? 'starred' : ''}" data-id="${escapeHtml(id)}">${isBookmarked(id) ? '★' : '☆'}</button>
+    </div>
+    <p>${escapeHtml(item.summary)}</p>
+    <div class="source">${escapeHtml(item.source || '')}</div>
+    ${item.previousUrl && item.previousHeadline ? `<div class="prev-link">이전 기사 읽기: <a href="${safeUrl(item.previousUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.previousHeadline)}</a></div>` : ''}
+    ${item.hrComment ? `<div class="hr-comment">HR 관점 · ${escapeHtml(item.hrComment)}</div>` : ''}
+  `;
+  el.querySelector('.star-btn').addEventListener('click', () => {
+    toggleBookmark(id, dateStr, categoryFullName, item);
+  });
+  return el;
 }
 
 function renderBriefing(briefing){
@@ -310,28 +445,9 @@ function renderBriefing(briefing){
     if(!cat.items || cat.items.length === 0) return;
     const tone = CATEGORY_TONE[cat.name] || 'hr';
     const label = CATEGORY_LABEL[cat.name] || cat.name;
-
     cat.items.forEach(item => {
       itemCount++;
-      const id = bookmarkId(dateStr, item);
-      const el = document.createElement('div');
-      el.className = 'item';
-      el.setAttribute('data-tone', tone);
-      el.innerHTML = `
-        <div class="item-tag">${escapeHtml(label)}</div>
-        <div class="item-head">
-          <h3><a href="${safeUrl(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.headline)}</a></h3>
-          <button class="star-btn ${isBookmarked(id) ? 'starred' : ''}" data-id="${escapeHtml(id)}">${isBookmarked(id) ? '★' : '☆'}</button>
-        </div>
-        <p>${escapeHtml(item.summary)}</p>
-        <div class="source">${escapeHtml(item.source || '')}</div>
-        ${item.previousUrl && item.previousHeadline ? `<div class="prev-link">이전 기사 읽기: <a href="${safeUrl(item.previousUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.previousHeadline)}</a></div>` : ''}
-        ${item.hrComment ? `<div class="hr-comment">HR 관점 · ${escapeHtml(item.hrComment)}</div>` : ''}
-      `;
-      el.querySelector('.star-btn').addEventListener('click', () => {
-        toggleBookmark(id, dateStr, cat.name, item);
-      });
-      content.appendChild(el);
+      content.appendChild(buildItemCard(item, dateStr, tone, label, cat.name));
     });
   });
 
@@ -349,66 +465,184 @@ function renderError(msg, dateStr){
   document.getElementById('retryBtn').onclick = () => loadDate(dateStr);
 }
 
-function renderDateList(){
-  const listEl = document.getElementById('dateList');
-  if(!archiveDates.length){
-    listEl.innerHTML = `<div class="drawer-empty">아직 저장된 브리핑이 없어요.</div>`;
+// ---------- 캘린더 ----------
+
+let calYear = null, calMonth = null; // calMonth: 0-indexed
+
+function openCalendar(){
+  const base = currentDate ? new Date(currentDate + 'T00:00:00') : new Date();
+  calYear = base.getFullYear();
+  calMonth = base.getMonth();
+  renderCalendar();
+  document.getElementById('calendarModal').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeCalendar(){
+  document.getElementById('calendarModal').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+function shiftCalendar(delta){
+  calMonth += delta;
+  if(calMonth < 0){ calMonth = 11; calYear -= 1; }
+  if(calMonth > 11){ calMonth = 0; calYear += 1; }
+  renderCalendar();
+}
+function renderCalendar(){
+  document.getElementById('calLabel').textContent = `${calYear}. ${String(calMonth + 1).padStart(2,'0')}`;
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const todayStr = todayKey();
+
+  for(let i = 0; i < firstDay; i++){
+    const empty = document.createElement('div');
+    empty.className = 'cal-cell empty';
+    grid.appendChild(empty);
+  }
+  for(let day = 1; day <= daysInMonth; day++){
+    const dateStr = `${calYear}-${String(calMonth + 1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const hasData = archiveDates.includes(dateStr);
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell' + (hasData ? ' has-data' : '') + (dateStr === currentDate ? ' active' : '') + (dateStr === todayStr ? ' today' : '');
+    cell.textContent = String(day);
+    if(hasData){
+      cell.onclick = () => { loadDate(dateStr); closeCalendar(); };
+    }
+    grid.appendChild(cell);
+  }
+}
+
+document.getElementById('calPrev').onclick = () => shiftCalendar(-1);
+document.getElementById('calNext').onclick = () => shiftCalendar(1);
+
+// ---------- 검색 ----------
+
+let searchIndex = null;
+let searchIndexPromise = null;
+let searchActive = false;
+let searchSort = 'desc'; // desc = 최신순
+let searchCatFilter = new Set(['hr', 'biz', 'ai']);
+let searchDebounceTimer = null;
+
+function ensureSearchIndex(){
+  if(searchIndexPromise) return searchIndexPromise;
+  searchIndexPromise = (async () => {
+    const perDate = await Promise.all(archiveDates.map(async dateStr => {
+      try{
+        const b = await fetchJson(`./archive/${dateStr}.json`);
+        const items = [];
+        (b.categories || []).forEach(cat => {
+          const tone = CATEGORY_TONE[cat.name] || 'hr';
+          (cat.items || []).forEach(item => {
+            items.push(Object.assign({}, item, { date: b.date || dateStr, category: cat.name, tone }));
+          });
+        });
+        return items;
+      }catch(e){
+        return [];
+      }
+    }));
+    searchIndex = perDate.flat();
+    return searchIndex;
+  })();
+  return searchIndexPromise;
+}
+
+function normalizeForSearch(s){
+  return (s || '').toLowerCase().replace(/\s+/g, '');
+}
+
+function setSearchActive(active){
+  searchActive = active;
+  document.getElementById('searchIconGlass').hidden = active;
+  document.getElementById('searchIconClose').hidden = !active;
+  document.getElementById('sortRow').hidden = !active;
+  if(!active) document.getElementById('sortPopup').hidden = true;
+}
+
+function exitSearch(){
+  setSearchActive(false);
+  if(currentBriefing){
+    document.getElementById('dateLine').textContent = formatDateLabel(currentDate);
+    renderBriefing(currentBriefing);
+  }
+}
+
+async function doSearch(){
+  const raw = document.getElementById('searchInput').value;
+  const q = normalizeForSearch(raw);
+  if(!q){
+    exitSearch();
     return;
   }
-  listEl.innerHTML = '';
-  archiveDates.slice().reverse().forEach(dateStr => {
-    const d = new Date(dateStr + 'T00:00:00');
-    const days = ['일','월','화','수','목','금','토'];
-    const el = document.createElement('div');
-    el.className = 'date-item' + (dateStr === currentDate ? ' active' : '');
-    el.innerHTML = `<span>${dateStr}</span><span class="weekday">${days[d.getDay()]}요일</span>`;
-    el.onclick = () => { loadDate(dateStr); closeSidebar(); };
-    listEl.appendChild(el);
+  setSearchActive(true);
+  const index = await ensureSearchIndex();
+  let results = index.filter(item => searchCatFilter.has(item.tone));
+  results = results.filter(item => {
+    const hay = normalizeForSearch(item.headline) + normalizeForSearch(item.summary);
+    return hay.includes(q);
+  });
+  results.sort((a, b) => searchSort === 'desc' ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date));
+  renderSearchResults(results, raw);
+}
+
+function renderSearchResults(results, rawQuery){
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+  if(!results.length){
+    content.innerHTML = `<div class="empty-note">"${escapeHtml(rawQuery)}"에 대한 검색 결과가 없어요.</div>`;
+    return;
+  }
+  results.forEach(item => {
+    const label = CATEGORY_LABEL[item.category] || item.category;
+    content.appendChild(buildItemCard(item, item.date, item.tone, label, item.category, { showDate: true }));
   });
 }
 
-function renderBookmarkList(){
-  openSwipeItem = null;
-  const listEl = document.getElementById('bookmarkList');
-  if(!bookmarks.length){
-    listEl.innerHTML = `<div class="drawer-empty">아직 북마크한 뉴스가 없어요. 헤드라인 옆 별표를 눌러보세요.</div>`;
-    return;
-  }
-  const sorted = bookmarks.slice().sort((a,b) => b.date.localeCompare(a.date) || b.savedAt - a.savedAt);
-  listEl.innerHTML = `<div class="bm-hint">항목을 오른쪽으로 밀면 삭제할 수 있어요 →</div>`;
-  sorted.forEach(b => {
-    const row = document.createElement('div');
-    row.className = 'bm-row';
-    row.innerHTML = `
-      <div class="bm-delete-zone"><button class="bm-delete-btn" aria-label="삭제">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 7h16"/><path d="M9 7V4.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V7"/>
-          <path d="M6 7l1 12.5a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1L18 7"/><path d="M10 11v6"/><path d="M14 11v6"/>
-        </svg>
-      </button></div>
-      <div class="bm-item">
-        <div class="bm-top">
-          <div style="min-width:0;">
-            <div class="bm-cat">${escapeHtml(b.category)} · ${escapeHtml(b.date)}</div>
-            <h4><a href="${safeUrl(b.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(b.headline)}</a></h4>
-            <div class="bm-meta">${escapeHtml(b.source || '')}</div>
-          </div>
-        </div>
-      </div>
-    `;
-    const itemEl = row.querySelector('.bm-item');
-    const deleteBtn = row.querySelector('.bm-delete-btn');
-    const removeThis = () => {
-      bookmarks = bookmarks.filter(x => x.id !== b.id);
-      saveBookmarks();
-      renderBookmarkList();
-      if(currentBriefing) renderBriefing(currentBriefing);
-    };
-    deleteBtn.addEventListener('click', removeThis);
-    attachSwipeToDelete(itemEl);
-    listEl.appendChild(row);
-  });
+function onSearchInput(){
+  clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(doSearch, 150);
 }
+
+document.getElementById('searchInput').addEventListener('input', onSearchInput);
+document.getElementById('searchInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') e.target.blur(); });
+document.getElementById('searchToggleBtn').onclick = () => {
+  const input = document.getElementById('searchInput');
+  if(searchActive){
+    input.value = '';
+    exitSearch();
+  } else {
+    input.focus();
+  }
+};
+
+document.getElementById('sortBtn').onclick = (e) => {
+  e.stopPropagation();
+  const popup = document.getElementById('sortPopup');
+  popup.hidden = !popup.hidden;
+};
+document.addEventListener('click', (e) => {
+  const popup = document.getElementById('sortPopup');
+  const btn = document.getElementById('sortBtn');
+  if(!popup.hidden && !popup.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+    popup.hidden = true;
+  }
+});
+document.getElementById('sortSegmented').addEventListener('click', (e) => {
+  const btn = e.target.closest('.seg-btn');
+  if(!btn) return;
+  searchSort = btn.dataset.order;
+  document.querySelectorAll('#sortSegmented .seg-btn').forEach(b => b.classList.toggle('active', b === btn));
+  if(searchActive) doSearch();
+});
+document.querySelectorAll('#sortPopup input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    if(cb.checked) searchCatFilter.add(cb.dataset.tone);
+    else searchCatFilter.delete(cb.dataset.tone);
+    if(searchActive) doSearch();
+  });
+});
 
 // ---------- 북마크 스와이프 삭제 ----------
 
@@ -503,20 +737,54 @@ function toggleBookmark(id, dateStr, categoryName, item){
     });
   }
   saveBookmarks();
-  if(currentBriefing) renderBriefing(currentBriefing);
-  renderBookmarkList();
+  refreshCurrentView();
 }
 
-// ---------- 드로어(사이드바) 열고 닫기 ----------
+function renderBookmarkList(){
+  openSwipeItem = null;
+  const listEl = document.getElementById('bookmarkList');
+  if(!bookmarks.length){
+    listEl.innerHTML = `<div class="drawer-empty">아직 북마크한 뉴스가 없어요. 헤드라인 옆 별표를 눌러보세요.</div>`;
+    return;
+  }
+  const sorted = bookmarks.slice().sort((a,b) => b.date.localeCompare(a.date) || b.savedAt - a.savedAt);
+  listEl.innerHTML = `<div class="bm-hint">항목을 오른쪽으로 밀면 삭제할 수 있어요 →</div>`;
+  sorted.forEach(b => {
+    const row = document.createElement('div');
+    row.className = 'bm-row';
+    row.innerHTML = `
+      <div class="bm-delete-zone"><button class="bm-delete-btn" aria-label="삭제">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 7h16"/><path d="M9 7V4.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V7"/>
+          <path d="M6 7l1 12.5a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1L18 7"/><path d="M10 11v6"/><path d="M14 11v6"/>
+        </svg>
+      </button></div>
+      <div class="bm-item">
+        <div class="bm-top">
+          <div style="min-width:0;">
+            <div class="bm-cat">${escapeHtml(b.category)} · ${escapeHtml(b.date)}</div>
+            <h4><a href="${safeUrl(b.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(b.headline)}</a></h4>
+            <div class="bm-meta">${escapeHtml(b.source || '')}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    const itemEl = row.querySelector('.bm-item');
+    const deleteBtn = row.querySelector('.bm-delete-btn');
+    const removeThis = () => {
+      bookmarks = bookmarks.filter(x => x.id !== b.id);
+      saveBookmarks();
+      renderBookmarkList();
+      refreshCurrentView();
+    };
+    deleteBtn.addEventListener('click', removeThis);
+    attachSwipeToDelete(itemEl);
+    listEl.appendChild(row);
+  });
+}
 
-function openSidebar(){
-  document.getElementById('sidebarDrawer').classList.add('open');
-  document.getElementById('overlay').classList.add('show');
-}
-function closeSidebar(){
-  document.getElementById('sidebarDrawer').classList.remove('open');
-  document.getElementById('overlay').classList.remove('show');
-}
+// ---------- 드로어/모달 열고 닫기 ----------
+
 function openBookmarks(){
   renderBookmarkList();
   document.getElementById('bookmarkDrawer').classList.add('open');
@@ -526,16 +794,16 @@ function closeBookmarks(){
   document.getElementById('bookmarkDrawer').classList.remove('open');
   document.getElementById('overlay').classList.remove('show');
 }
-function closeAllDrawers(){
-  closeSidebar();
+function closeAllPanels(){
   closeBookmarks();
+  closeCalendar();
 }
 
-document.getElementById('sidebarBtn').onclick = () => { closeBookmarks(); openSidebar(); };
-document.getElementById('bookmarkBtn').onclick = () => { closeSidebar(); openBookmarks(); };
-document.getElementById('sidebarClose').onclick = closeSidebar;
+document.getElementById('calendarBtn').onclick = () => { closeBookmarks(); openCalendar(); };
+document.getElementById('bookmarkBtn').onclick = () => { closeCalendar(); openBookmarks(); };
+document.getElementById('calendarClose').onclick = closeCalendar;
 document.getElementById('bookmarkClose').onclick = closeBookmarks;
-document.getElementById('overlay').onclick = closeAllDrawers;
+document.getElementById('overlay').onclick = closeAllPanels;
 
 loadBookmarks();
 loadInitial();
