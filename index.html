@@ -47,31 +47,30 @@
   }
   .icon-btn:hover{ background:var(--card-hover); }
   .icon-btn svg{ width:18px; height:18px; display:block; }
-  .icon-btn.small{ width:32px; height:32px; }
-  .icon-btn.small svg{ width:16px; height:16px; }
 
   /* ---------- 검색 ---------- */
+  .search-wrap{ position:relative; margin-top:14px; }
   .search-bar{
-    display:flex; align-items:center; gap:4px; margin-top:14px;
+    display:flex; align-items:center; gap:2px;
     background:var(--card); border:1px solid var(--hairline); border-radius:999px;
     padding:3px 4px 3px 16px;
   }
   .search-input{
     flex:1; min-width:0; border:none; background:none; outline:none;
-    font-family:'Noto Serif KR', Georgia, serif; font-size:14px; color:var(--paper);
+    /* 16px 미만이면 iOS Safari가 포커스 시 화면을 확대해버려서 16px로 고정 */
+    font-family:'Noto Serif KR', Georgia, serif; font-size:16px; color:var(--paper);
     padding:9px 0;
   }
-  .search-toggle-btn{
-    flex:0 0 auto; width:34px; height:34px; border-radius:50%; border:none;
+  .search-toggle-btn, .icon-inline-btn{
+    flex:0 0 auto; width:32px; height:32px; border-radius:50%; border:none;
     background:none; color:var(--muted); display:flex; align-items:center; justify-content:center;
     cursor:pointer;
   }
-  .search-toggle-btn:hover{ background:var(--card-hover); }
-  .search-toggle-btn svg{ width:18px; height:18px; }
+  .search-toggle-btn:hover, .icon-inline-btn:hover{ background:var(--card-hover); }
+  .search-toggle-btn svg, .icon-inline-btn svg{ width:17px; height:17px; }
 
-  .sort-row{ position:relative; margin-top:10px; display:flex; justify-content:flex-end; }
   .sort-popup{
-    position:absolute; top:calc(100% + 6px); right:0; z-index:45; width:200px;
+    position:absolute; top:calc(100% + 8px); right:0; z-index:45; width:200px;
     background:var(--card); border:1px solid var(--hairline); border-radius:10px;
     padding:12px; box-shadow:0 10px 28px rgba(0,0,0,0.14);
   }
@@ -254,23 +253,22 @@
       </button>
     </div>
 
-    <div class="search-bar">
-      <input type="text" id="searchInput" class="search-input" autocomplete="off" spellcheck="false" aria-label="뉴스 검색">
-      <button class="search-toggle-btn" id="searchToggleBtn" aria-label="검색">
-        <svg id="searchIconGlass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg>
-        <svg id="searchIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" hidden><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-    </div>
-
-    <div class="sort-row" id="sortRow" hidden>
-      <button class="icon-btn small" id="sortBtn" aria-label="정렬">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
-          <circle cx="15" cy="6" r="2" fill="currentColor" stroke="none"/>
-          <circle cx="8" cy="12" r="2" fill="currentColor" stroke="none"/>
-          <circle cx="13" cy="18" r="2" fill="currentColor" stroke="none"/>
-        </svg>
-      </button>
+    <div class="search-wrap">
+      <div class="search-bar">
+        <input type="text" id="searchInput" class="search-input" autocomplete="off" spellcheck="false" aria-label="뉴스 검색">
+        <button class="icon-inline-btn" id="sortBtn" aria-label="정렬" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+            <circle cx="15" cy="6" r="2" fill="currentColor" stroke="none"/>
+            <circle cx="8" cy="12" r="2" fill="currentColor" stroke="none"/>
+            <circle cx="13" cy="18" r="2" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
+        <button class="search-toggle-btn" id="searchToggleBtn" aria-label="검색">
+          <svg id="searchIconGlass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg>
+          <svg id="searchIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" hidden><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
       <div class="sort-popup" id="sortPopup" hidden>
         <div class="sort-popup-section">
           <div class="sort-popup-label">시간순</div>
@@ -523,7 +521,6 @@ let searchIndexPromise = null;
 let searchActive = false;
 let searchSort = 'desc'; // desc = 최신순
 let searchCatFilter = new Set(['hr', 'biz', 'ai']);
-let searchDebounceTimer = null;
 
 function ensureSearchIndex(){
   if(searchIndexPromise) return searchIndexPromise;
@@ -557,7 +554,7 @@ function setSearchActive(active){
   searchActive = active;
   document.getElementById('searchIconGlass').hidden = active;
   document.getElementById('searchIconClose').hidden = !active;
-  document.getElementById('sortRow').hidden = !active;
+  document.getElementById('sortBtn').hidden = !active;
   if(!active) document.getElementById('sortPopup').hidden = true;
 }
 
@@ -600,18 +597,19 @@ function renderSearchResults(results, rawQuery){
   });
 }
 
-function onSearchInput(){
-  clearTimeout(searchDebounceTimer);
-  searchDebounceTimer = setTimeout(doSearch, 150);
-}
-
-document.getElementById('searchInput').addEventListener('input', onSearchInput);
-document.getElementById('searchInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') e.target.blur(); });
+// 입력할 때마다 바로 검색하지 않고, 돋보기(또는 Enter)를 눌러야 검색을 실행함
+document.getElementById('searchInput').addEventListener('keydown', (e) => {
+  if(e.key !== 'Enter') return;
+  e.target.blur();
+  if(!searchActive && e.target.value.trim()) doSearch();
+});
 document.getElementById('searchToggleBtn').onclick = () => {
   const input = document.getElementById('searchInput');
   if(searchActive){
     input.value = '';
     exitSearch();
+  } else if(input.value.trim()){
+    doSearch();
   } else {
     input.focus();
   }
