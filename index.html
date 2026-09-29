@@ -563,10 +563,10 @@ function setSearchActive(active){
 
 function exitSearch(){
   setSearchActive(false);
-  if(currentBriefing){
-    document.getElementById('dateLine').textContent = formatDateLabel(currentDate);
-    renderBriefing(currentBriefing);
-  }
+  // 검색을 닫으면(취소하거나 X를 누르면) 보던 날짜가 아니라 항상 오늘 브리핑으로 돌아감
+  const today = todayKey();
+  const target = archiveDates.includes(today) ? today : archiveDates[archiveDates.length - 1];
+  if(target) loadDate(target);
 }
 
 async function doSearch(){
