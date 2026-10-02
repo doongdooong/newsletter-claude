@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-03",
+  "categories": [
+    {
+      "name": "국내 대기업 사업동향",
+      "items": [
+        {
+          "headline": "한국타이어, 美 타임지 '2026 세계 최고의 기업' 선정",
+          "summary": "한국타이어앤테크놀로지가 미국 타임지와 글로벌 시장조사기관 스태티스타가 공동 선정하는 '2026 세계 최고의 기업'에 이름을 올렸다. 최근 3년간의 실적 성장세와 지난해 타이어 부문 매출 10조원 돌파, 직원 만족도·ESG 지표 등이 평가 기준이 됐다.",
+          "source": "파이낸셜뉴스",
+          "url": "https://fnnews.com/news/202610020935165596"
+        },
+        {
+          "headline": "현대차, 9월 내수 판매 25.7% 급감…추석 연휴 여파",
+          "summary": "현대차가 9월 국내 시장에서 4만9022대를 판매해 전년 동월 대비 25.7% 줄었다. 추석 연휴로 인한 영업일수 감소가 주요 원인으로 꼽혔다.",
+          "source": "한국경제",
+          "url": "https://hankyung.com/article/202610018275g"
+        }
+      ]
+    },
+    {
+      "name": "AI·테크 전반",
+      "items": [
+        {
+          "headline": "구글, 신규 플래그십 모델 '제미나이4 아르곤' 공개",
+          "summary": "구글 딥마인드가 지난해 11월 제미나이3 이후 약 1년 만에 신규 플래그십 모델 '제미나이4 아르곤'을 공개했다. 코딩·추론 벤치마크에서 오픈AI 'GPT-6 아스트라', 앤트로픽 'Claude Opus 5.5'와 경합하는 성능을 보이며 제한적 공개를 시작했다.",
+          "source": "VentureBeat",
+          "url": "https://venturebeat.com/technology/google-unveils-gemini-4-argon-retaking-benchmark-lead-over-openai-and-anthropic-but-in-limited-release"
+        }
+      ]
+    }
+  ]
+}
