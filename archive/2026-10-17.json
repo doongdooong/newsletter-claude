@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-17",
+  "categories": [
+    {
+      "name": "국내 대기업 사업동향",
+      "items": [
+        {
+          "headline": "LG전자, 3분기 영업이익 13.5% 늘었지만 주가는 급락",
+          "summary": "LG전자가 3분기 영업이익 7818억원(전년 대비 13.5%↑), 매출 23조8270억원을 기록했다고 밝혔지만 자회사 LG이노텍의 수익성 부진 등으로 시장 기대치에 못 미쳤다는 평가가 나오며 10월 15일 주가가 장중 6% 넘게 떨어졌다.",
+          "source": "중앙이코노미뉴스",
+          "url": "https://www.joongangenews.com/news/articleView.html?idxno=555180"
+        }
+      ]
+    },
+    {
+      "name": "AI·테크 전반",
+      "items": [
+        {
+          "headline": "AI 거품 우려에 삼성전자·SK하이닉스 폭락 후 반등",
+          "summary": "금리·물가 부담과 중국의 메모리 추격, 'AI 대출 거품' 우려가 겹치며 10월 15일 삼성전자·SK하이닉스가 각각 9.48%, 11.06% 급락하며 코스피·코스닥 서킷브레이커가 발동됐고, 16일에는 두 종목 모두 소폭 반등했다.",
+          "source": "뉴스핌",
+          "url": "https://www.newspim.com/news/view/20261015001321"
+        },
+        {
+          "headline": "앤트로픽, 독립 AI안전 연구기관 METR에 직원급 접근권한 부여",
+          "summary": "앤트로픽이 10월 15일 독립 AI 안전 평가기관 METR 연구진에게 직원과 동일한 수준의 내부 접근권한을 제공해 자사 모델과 안전 관행, 위험 관리 체계를 독립적으로 평가받기로 했다.",
+          "source": "TechCrunch",
+          "url": "https://techcrunch.com/2026/10/15/anthropic-is-letting-metr-researchers-look-under-the-hood-with-employee-level-access/"
+        }
+      ]
+    }
+  ]
+}
