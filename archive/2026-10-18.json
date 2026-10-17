@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-18",
+  "categories": [
+    {
+      "name": "AI·테크 전반",
+      "items": [
+        {
+          "headline": "앤트로픽, 매출 성장 둔화에 IPO 몸값 2조달러서 1.5조달러 안팎으로 낮춰 논의",
+          "summary": "앤트로픽이 10월 14일 샌프란시스코 투자자 설명회에서 3분기 매출이 168억달러로 전분기 대비 45% 늘었다고 밝혔는데, 이는 2분기의 거의 두 배 성장보다 둔화된 수치여서 참석 투자자들 사이에서 11월로 예정된 지분매각(IPO) 몸값을 당초 거론된 2조달러에서 1.5조달러 수준으로 낮추는 논의가 나왔다고 로이터가 보도했다.",
+          "source": "NewsBytes",
+          "url": "https://www.newsbytesapp.com/news/business/anthropic-hosts-san-francisco-investor-day-ahead-of-november-ipo/tldr"
+        },
+        {
+          "headline": "삼성전자·SK하이닉스, SEDEX 2026서 HBM4E 등 차세대 AI 메모리 기술 공개",
+          "summary": "한국반도체산업협회 주최로 10월 14일부터 16일까지 서울 코엑스에서 열린 '반도체대전(SEDEX) 2026'에서 삼성전자는 HBM4E를 국내 최초로 공개하고 2나노 GAA 공정·첨단 패키징 기술을, SK하이닉스는 HBM4·HBM4E와 서버·모바일용 메모리 제품을 전시하며 중국의 추격 속에서 기술 격차를 강조했다.",
+          "source": "아이뉴스24",
+          "url": "https://www.inews24.com/view/2014912"
+        }
+      ]
+    }
+  ]
+}
