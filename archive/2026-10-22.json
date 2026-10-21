@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-22",
+  "categories": [
+    {
+      "name": "국내 대기업 사업동향",
+      "items": [
+        {
+          "headline": "한국타이어, 원자재·운임 상승 속 3분기 실적 방어 전망",
+          "summary": "한화투자증권은 한국타이어앤테크놀로지의 3분기 연결 매출을 5조5900억원, 영업이익을 5543억원으로 전망했다. 매출은 전년 대비 늘지만 고무값·해상운임 부담으로 타이어 부문 영업이익률은 지난해보다 낮아질 것으로 예상된다.",
+          "source": "아시아경제",
+          "url": "https://view.asiae.co.kr/article/2026101916360070001"
+        },
+        {
+          "headline": "이마트, 상품 60% 2000원 이하로…다이소 대항마 전략 강화",
+          "summary": "이마트가 초저가 생활용품 라인업을 확대하며 다이소 대응 전략에 속도를 내고 있다. 상품 구성의 60%를 2000원 이하로 맞춰 가격 경쟁력을 강화한다는 방침이다.",
+          "source": "한국경제",
+          "url": "https://www.hankyung.com/article/202610215051g"
+        }
+      ]
+    },
+    {
+      "name": "AI·테크 전반",
+      "items": [
+        {
+          "headline": "오픈AI, 구글 클라우드 통해 AI 모델 제공…MS 의존 축소",
+          "summary": "오픈AI가 수주 내 구글 클라우드를 통해 개발자들에게 자사 AI 모델을 제공할 계획이라고 밝혔다. 수년간 경쟁 관계였던 두 회사가 협력에 나서면서 오픈AI의 마이크로소프트 단일 의존 구조도 완화될 전망이다.",
+          "source": "CNBC",
+          "url": "https://www.cnbc.com/2026/10/21/openai-bring-its-ai-models-to-googles-cloud-expands-beyond-microsoft.html"
+        },
+        {
+          "headline": "앤트로픽·구글·오픈AI, 차세대 AI 모델 동시 준비",
+          "summary": "The Information에 따르면 구글은 '제미나이 4 카본', 오픈AI는 저비용·고성능을 내세운 '테라' 계열 신모델을 수주 내 출시할 준비를 하고 있고, 앤트로픽도 사용자 의도 추론 능력을 강화한 신모델을 개발 중이다. 세 회사가 최근 한 달간 10여 개 모델을 쏟아낸 데 이어 다시 한번 경쟁이 가속화되는 모습이다.",
+          "source": "Yahoo Finance",
+          "url": "https://au.finance.yahoo.com/news/anthropic-google-openai-prepare-ai-144212018.html",
+          "hrComment": "AI 모델 경쟁이 가속화될수록 AI 엔지니어·리서처 인재 영입 경쟁도 더 치열해질 가능성이 커, HR 입장에서는 핵심 AI 인재 리텐션 전략을 미리 점검해볼 만하다."
+        }
+      ]
+    }
+  ]
+}
