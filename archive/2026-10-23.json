@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-23",
+  "categories": [
+    {
+      "name": "국내 대기업 사업동향",
+      "items": [
+        {
+          "headline": "현대카드, 독자 브랜드 '알파벳카드' 발급 15만장 돌파",
+          "summary": "현대카드는 21일 카드사 최초의 독자 브랜드로 출범한 알파벳카드의 누적 발급량이 15만장을 넘었다고 밝혔다. 알파벳카드는 뷰티·여행 등 특화 업종에서 10% 할인 혜택을 제공하며, 오는 31일까지 신규 회원 대상 연회비 캐시백 프로모션을 진행한다.",
+          "source": "뉴스핌",
+          "url": "https://www.newspim.com/news/view/20261021001159"
+        }
+      ]
+    },
+    {
+      "name": "AI·테크 전반",
+      "items": [
+        {
+          "headline": "中 딥시크, 텐센트·CATL 등으로부터 최대 150억 달러 투자 유치",
+          "summary": "중국 AI 기업 딥시크가 텐센트, CATL 등을 투자자로 유치하며 창사 이후 첫 외부 투자 라운드를 최대 150억 달러 규모로 마무리하고 있는 것으로 보도됐다. 밸류에이션은 보도마다 500억~740억 달러대로 엇갈리지만, 미국의 대중 반도체 수출 규제 속에서도 중국 AI 기업에 대한 투자 수요가 여전히 강하다는 점을 보여준다.",
+          "source": "TechStartups·TechCrunch",
+          "url": "https://techstartups.com/2026/10/22/deepseek-raises-15-billion-at-74-billion-valuation-backed-by-tencent-catl-and-chinese-tech-giants/",
+          "hrComment": "빅테크 간 AI 자본·인재 유치 경쟁이 중국 기업까지 번지는 모습으로, 글로벌 AI 인재 영입 경쟁이 한층 가열될 수 있어 핵심 인력 리텐션 전략을 점검해볼 만하다."
+        },
+        {
+          "headline": "AI 리서치랩 '플래핑 에어플레인스', 60억 달러 밸류에이션으로 투자 유치 추진",
+          "summary": "설립 1년 된 AI 연구 스타트업 플래핑 에어플레인스가 인덱스벤처스·럭스캐피털 주도로 신규 투자 유치를 추진 중이며, 약 60억 달러 밸류에이션을 인정받을 것으로 보인다고 블룸버그가 21일 보도했다. 올해 1월 15억 달러 밸류에이션으로 1억8000만 달러를 유치한 지 반년여 만에 몸값이 4배가량 뛴 셈이다.",
+          "source": "Bloomberg",
+          "url": "https://www.bloomberg.com/news/articles/2026-10-21/ai-research-startup-flapping-airplanes-valued-at-6-billion-in-round"
+        }
+      ]
+    }
+  ]
+}
