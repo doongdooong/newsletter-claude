@@ -523,6 +523,7 @@ let searchIndexPromise = null;
 let searchActive = false;
 let searchSort = 'desc'; // desc = 최신순
 let searchCatFilter = new Set(['hr', 'biz', 'ai']);
+let searchDebounceTimer = null;
 
 function ensureSearchIndex(){
   if(searchIndexPromise) return searchIndexPromise;
@@ -599,19 +600,18 @@ function renderSearchResults(results, rawQuery){
   });
 }
 
-// 입력할 때마다 바로 검색하지 않고, 돋보기(또는 Enter)를 눌러야 검색을 실행함
-document.getElementById('searchInput').addEventListener('keydown', (e) => {
-  if(e.key !== 'Enter') return;
-  e.target.blur();
-  if(!searchActive && e.target.value.trim()) doSearch();
-});
+function onSearchInput(){
+  clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(doSearch, 150);
+}
+
+document.getElementById('searchInput').addEventListener('input', onSearchInput);
+document.getElementById('searchInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') e.target.blur(); });
 document.getElementById('searchToggleBtn').onclick = () => {
   const input = document.getElementById('searchInput');
   if(searchActive){
     input.value = '';
     exitSearch();
-  } else if(input.value.trim()){
-    doSearch();
   } else {
     input.focus();
   }
