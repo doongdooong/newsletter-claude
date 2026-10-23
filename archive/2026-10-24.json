@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-24",
+  "categories": [
+    {
+      "name": "채용·HR·조직문화",
+      "items": [
+        {
+          "headline": "LG전자 인도법인, 3년 연속 '일하기 좋은 기업' 선정",
+          "summary": "LG전자 인도법인이 글로벌 조직문화 평가기관 GPTW(Great Place To Work)로부터 3년 연속 '일하기 좋은 기업' 인증을 받았다. 신뢰·존중·자부심·공정성·동료애 5개 영역에 대한 직원 설문을 거쳐 수평적이고 포용적인 조직문화를 인정받았다.",
+          "source": "Investing.com(The Guru)",
+          "url": "https://kr.investing.com/news/stock-market-news/article-2138485",
+          "hrComment": "해외 법인의 조직문화 인증 사례는 국내 본사 HR 정책의 글로벌 벤치마킹 포인트로 참고할 만하다."
+        },
+        {
+          "headline": "부산서 229개 기업 참여 'KB굿잡 잡페스티벌' 26일 개최",
+          "summary": "고용노동부·부산시·KB국민은행이 공동 주최하는 '2026 KB굿잡 부산 잡페스티벌'이 26일 벡스코에서 열린다. 청년일자리강소기업 30곳을 포함해 229개 기업이 참가하며, 정규직 채용 시 기업당 최대 1000만원의 채용지원금이 지원된다.",
+          "source": "중도일보",
+          "url": "https://www.joongdo.co.kr/web/view.php?key=20261022010006253"
+        }
+      ]
+    },
+    {
+      "name": "국내 대기업 사업동향",
+      "items": [
+        {
+          "headline": "CJ프레시웨이, 공정위 현장조사…식자재 입찰 담합 의혹",
+          "summary": "공정거래위원회가 지난 20~22일 CJ프레시웨이 사업장에 조사관을 보내 요양원·사회복지시설 식자재 입찰 관련 담합 의혹을 현장 조사했다. 회사 측은 의혹을 전면 부인하며 조사 과정에서 혐의없음을 충분히 입증했다는 입장을 밝혔다.",
+          "source": "아주경제",
+          "url": "https://www.ajunews.com/view/20261023135439060"
+        },
+        {
+          "headline": "이마트, 초저가 전문점 '와우샵' 연말까지 5곳으로 확대",
+          "summary": "이마트가 초저가 생활·뷰티 전문점 '와우샵'을 연말까지 5개 매장으로 확대한다. 바노바기(22일 월계·은평점), 일동헬스케어 '퍼스트랩'(22일) 등 뷰티 브랜드 입점이 이어지며 '다이소 대항마'로 주목받고 있다.",
+          "source": "머니투데이·뉴스핌",
+          "url": "https://mt.co.kr/industry/2026/10/23/2026102310485942444"
+        }
+      ]
+    },
+    {
+      "name": "AI·테크 전반",
+      "items": [
+        {
+          "headline": "Anthropic, 개인 비서형 AI 에이전트 'Claude Duet' 리서치 프리뷰 출시",
+          "summary": "Anthropic이 이메일·일정을 확인하고 답장 초안을 작성하며 미완료 업무를 이어서 처리하는 개인 비서 앱 'Claude Duet'을 리서치 프리뷰로 공개했다. Opus 5.5 기반으로 미국 Pro·Max 구독자 대상 웨이트리스트로 제공되며, OpenAI·Meta에 이어 에이전트형 AI 비서 경쟁에 합류했다는 평가다.",
+          "source": "Fortune",
+          "url": "https://fortune.com/2026/10/23/anthropic-joins-meta-and-openais-personal-ai-assistant-race-with-duet/",
+          "hrComment": "AI 비서가 이메일·일정 관리 등 반복 업무를 대체하기 시작하면서, 직원들의 업무 범위와 역량 요구가 빠르게 재편될 수 있다."
+        },
+        {
+          "headline": "마이크론 대만 노조, AI 메모리 수익 배분 요구하며 경고 파업",
+          "summary": "대만 마이크론 타오위안 노조가 타이중 노조와 연대해 22일 하루 경고 파업을 벌이며 영업이익의 15%를 성과급으로 배분하는 영구적 제도 도입을 요구했다. 마이크론은 AI용 D램·HBM 수요로 2026 회계연도 매출이 전년 대비 256% 급증한 약 1330억 달러를 기록했다.",
+          "source": "247wallst·Focus Taiwan",
+          "url": "https://247wallst.com/investing/2026/10/21/micron-is-making-record-profits-its-taiwan-workers-are-walking-out/"
+        }
+      ]
+    }
+  ]
+}
