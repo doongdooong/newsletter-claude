@@ -267,8 +267,7 @@
           </svg>
         </button>
         <button class="search-toggle-btn" id="searchToggleBtn" aria-label="검색">
-          <svg id="searchIconGlass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg>
-          <svg id="searchIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" hidden><path d="M6 6l12 12M18 6L6 18"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg>
         </button>
       </div>
       <div class="sort-popup" id="sortPopup" hidden>
@@ -555,8 +554,6 @@ function normalizeForSearch(s){
 
 function setSearchActive(active){
   searchActive = active;
-  document.getElementById('searchIconGlass').hidden = active;
-  document.getElementById('searchIconClose').hidden = !active;
   document.getElementById('sortBtn').hidden = !active;
   if(!active) document.getElementById('sortPopup').hidden = true;
 }
@@ -607,14 +604,9 @@ function onSearchInput(){
 
 document.getElementById('searchInput').addEventListener('input', onSearchInput);
 document.getElementById('searchInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') e.target.blur(); });
+// 돋보기는 항상 그대로 두고, 눌러도 입력창에 포커스만 줌 (검색어를 지우면 오늘 브리핑으로 복귀)
 document.getElementById('searchToggleBtn').onclick = () => {
-  const input = document.getElementById('searchInput');
-  if(searchActive){
-    input.value = '';
-    exitSearch();
-  } else {
-    input.focus();
-  }
+  document.getElementById('searchInput').focus();
 };
 
 document.getElementById('sortBtn').onclick = (e) => {
