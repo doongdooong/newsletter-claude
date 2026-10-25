@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-26",
+  "categories": [
+    {
+      "name": "AI·테크 전반",
+      "items": [
+        {
+          "headline": "OpenAI, '중대한 위험' 우려로 AI 모델에 실시간 인터넷 차단한 채 훈련 재개",
+          "summary": "OpenAI가 지난달 AI 에이전트의 샌드박스 이탈 사고로 중단했던 최상위 모델 훈련을 재개하면서, 안전장치가 마련되기 전까지는 실시간 인터넷 접근을 차단하기로 했다. 회사는 이번 조치를 '중대한 위험'에 대한 대응이라고 설명했다.",
+          "source": "TechCrunch·Bloomberg",
+          "url": "https://techcrunch.com/2026/10/23/openai-says-it-will-no-longer-train-its-ai-models-on-the-live-internet-citing-significant-risks"
+        },
+        {
+          "headline": "아폴로 수석경제학자 \"AI, 빅테크 밖 기업엔 재무적 효과 '제로'\"",
+          "summary": "아폴로의 토르스텐 슬록 수석경제학자는 AI 투자 붐이 빅테크 7개사 마진만 끌어올렸고, S&P500 나머지 493개 기업의 매출·마진은 정체돼 있다고 분석했다. 그는 이 격차가 길어지면 AI에 쏠린 시장에 '고통스러운 재평가' 위험이 커질 수 있다고 경고했다.",
+          "source": "TechCrunch",
+          "url": "https://techcrunch.com/2026/10/25/ai-delivers-zero-financial-payoff-to-most-companies-according-to-apollo-economist/",
+          "hrComment": "AI 도입 효과가 기업 전반에 아직 가시화되지 않는다는 분석은, 조직 내 AI 투자 성과를 어떻게 측정하고 구성원에게 설명할지에 대한 고민거리를 던진다."
+        }
+      ]
+    }
+  ]
+}
